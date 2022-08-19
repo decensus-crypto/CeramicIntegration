@@ -82,9 +82,19 @@ export async function _encryptWithLit(
       chain,
       permanant: false,
     });
+  // in our use case, unifiedAccessControlConditions only contain EVMs.
+  } else if (accessControlConditionType === "unifiedAccessControlConditions") {
+    if (accessControlConditions)
+    encryptedSymmetricKey = await window.litNodeClient.saveEncryptionKey({
+      unifiedAccessControlConditions: accessControlConditions,
+      symmetricKey,
+      authSig: authSig,
+      chain,
+      permanant: false,
+    });
   } else {
     throw new Error(
-      "accessControlConditionType must be accessControlConditions or evmContractConditions"
+      "accessControlConditionType must be accessControlConditions or evmContractConditions or unifiedAccessControlConditions"
     );
   }
   const encryptedZipBase64 = await blobToBase64(encryptedZip);

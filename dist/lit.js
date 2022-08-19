@@ -1,7 +1,11 @@
 "use strict";
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
 }) : (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     o[k2] = m[k];
@@ -132,7 +136,7 @@ function _encryptWithLit(aStringThatYouWishToEncrypt, accessControlConditions, c
                         })];
                 case 3:
                     encryptedSymmetricKey = _b.sent();
-                    return [3 /*break*/, 7];
+                    return [3 /*break*/, 10];
                 case 4:
                     if (!(accessControlConditionType === "evmContractConditions")) return [3 /*break*/, 6];
                     return [4 /*yield*/, window.litNodeClient.saveEncryptionKey({
@@ -144,10 +148,24 @@ function _encryptWithLit(aStringThatYouWishToEncrypt, accessControlConditions, c
                         })];
                 case 5:
                     encryptedSymmetricKey = _b.sent();
-                    return [3 /*break*/, 7];
-                case 6: throw new Error("accessControlConditionType must be accessControlConditions or evmContractConditions");
-                case 7: return [4 /*yield*/, blobToBase64(encryptedZip)];
-                case 8:
+                    return [3 /*break*/, 10];
+                case 6:
+                    if (!(accessControlConditionType === "unifiedAccessControlConditions")) return [3 /*break*/, 9];
+                    if (!accessControlConditions) return [3 /*break*/, 8];
+                    return [4 /*yield*/, window.litNodeClient.saveEncryptionKey({
+                            unifiedAccessControlConditions: accessControlConditions,
+                            symmetricKey: symmetricKey,
+                            authSig: authSig,
+                            chain: chain,
+                            permanant: false,
+                        })];
+                case 7:
+                    encryptedSymmetricKey = _b.sent();
+                    _b.label = 8;
+                case 8: return [3 /*break*/, 10];
+                case 9: throw new Error("accessControlConditionType must be accessControlConditions or evmContractConditions or unifiedAccessControlConditions");
+                case 10: return [4 /*yield*/, blobToBase64(encryptedZip)];
+                case 11:
                     encryptedZipBase64 = _b.sent();
                     encryptedSymmetricKeyBase64 = encodeb64(encryptedSymmetricKey);
                     return [2 /*return*/, [

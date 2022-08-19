@@ -68,8 +68,9 @@ var Integration = /** @class */ (function () {
                 switch (_a.label) {
                     case 0:
                         if (accessControlConditionType !== "accessControlConditions" &&
-                            accessControlConditionType !== "evmContractConditions") {
-                            throw new Error("accessControlConditionType must be accessControlConditions or evmContractConditions");
+                            accessControlConditionType !== "evmContractConditions" &&
+                            accessControlConditionType !== "unifiedAccessControlConditions") {
+                            throw new Error("accessControlConditionType must be accessControlConditions or evmContractConditions or unifiedAccessControlConditions");
                         }
                         _a.label = 1;
                     case 1:

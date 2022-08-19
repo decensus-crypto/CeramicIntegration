@@ -51,10 +51,11 @@ export class Integration {
   ): Promise<String> {
     if (
       accessControlConditionType !== "accessControlConditions" &&
-      accessControlConditionType !== "evmContractConditions"
+      accessControlConditionType !== "evmContractConditions" &&
+      accessControlConditionType !== "unifiedAccessControlConditions"
     ) {
       throw new Error(
-        "accessControlConditionType must be accessControlConditions or evmContractConditions"
+        "accessControlConditionType must be accessControlConditions or evmContractConditions or unifiedAccessControlConditions"
       );
     }
     try {
