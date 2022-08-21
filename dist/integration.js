@@ -37,9 +37,9 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Integration = void 0;
-var lit_1 = require("./lit");
-var client_1 = require("./client");
 var ceramic_1 = require("./ceramic");
+var client_1 = require("./client");
+var lit_1 = require("./lit");
 var Integration = /** @class */ (function () {
     function Integration(ceramicNodeUrl, chainParam) {
         if (ceramicNodeUrl === void 0) { ceramicNodeUrl = "https://ceramic-clay.3boxlabs.com"; }
@@ -96,21 +96,20 @@ var Integration = /** @class */ (function () {
     /**
      * Retrieves a stream and decrypts message then returns to user
      *
-     * @param {String} streamID the streamID of the encrypted data the user wants to access
-     * @returns {Promise<String>} A promise that resolves to the unencrypted string of what was stored
+     * @param {string} streamID the streamID of the encrypted data the user wants to access
+     * @returns {Promise<string>} A promise that resolves to the unencrypted string of what was stored
      */
     Integration.prototype.readAndDecrypt = function (streamID) {
         return __awaiter(this, void 0, void 0, function () {
-            var a, en, deco, decrypt, error_2;
+            var ceramic, en, deco, decrypt, error_2;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         _a.trys.push([0, 5, , 6]);
-                        return [4 /*yield*/, (0, ceramic_1._authenticateCeramic)(this.ceramicPromise)];
+                        return [4 /*yield*/, this.ceramicPromise];
                     case 1:
-                        a = _a.sent();
-                        console.log("authenticated RnD: ", a);
-                        return [4 /*yield*/, (0, ceramic_1._readCeramic)(a, streamID)];
+                        ceramic = _a.sent();
+                        return [4 /*yield*/, (0, ceramic_1._readCeramic)(ceramic, streamID)];
                     case 2:
                         en = _a.sent();
                         console.log("read from ceramic RnD: ", en);
@@ -150,7 +149,7 @@ var Integration = /** @class */ (function () {
                     case 1:
                         a = _a.sent();
                         console.log("authenticated: ", a);
-                        return [4 /*yield*/, (0, ceramic_1._readCeramic)(a, streamID)];
+                        return [4 /*yield*/, (0, ceramic_1._readCeramic)(a[1], streamID)];
                     case 2:
                         en = _a.sent();
                         console.log("read from ceramic: ", en);

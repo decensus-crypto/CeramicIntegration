@@ -1,17 +1,16 @@
 // Don't forget to rebuild
-import { createIDX } from "./idx";
 import type { CeramicApi } from "@ceramicnetwork/common";
 import type { DID } from "dids";
-import { _encryptWithLit, _decryptWithLit, _saveEncryptionKey } from "./lit";
-import { _startLitClient } from "./client";
 import {
   _authenticateCeramic,
   _createCeramic,
-  _writeCeramic,
-  _readCeramic,
   _decodeFromB64,
+  _readCeramic,
   _updateCeramic,
+  _writeCeramic,
 } from "./ceramic";
+import { _startLitClient } from "./client";
+import { _decryptWithLit, _encryptWithLit, _saveEncryptionKey } from "./lit";
 
 declare global {
   interface Window {
@@ -76,16 +75,14 @@ export class Integration {
   /**
    * Retrieves a stream and decrypts message then returns to user
    *
-   * @param {String} streamID the streamID of the encrypted data the user wants to access
-   * @returns {Promise<String>} A promise that resolves to the unencrypted string of what was stored
+   * @param {string} streamID the streamID of the encrypted data the user wants to access
+   * @returns {Promise<string>} A promise that resolves to the unencrypted string of what was stored
    */
-  async readAndDecrypt(streamID: String): Promise<any> {
+  async readAndDecrypt(streamID: string): Promise<any> {
     try {
-      // makes certain DID/wallet has been auth'ed
-      const a = await _authenticateCeramic(this.ceramicPromise);
-      console.log("authenticated RnD: ", a);
+      const ceramic = await this.ceramicPromise;
       // read data and retrieve encrypted data
-      const en = await _readCeramic(a, streamID);
+      const en = await _readCeramic(ceramic, streamID);
       console.log("read from ceramic RnD: ", en);
       // decode data returned from ceramic
       const deco = await _decodeFromB64(en);
@@ -123,7 +120,7 @@ export class Integration {
       console.log("trying to update permissions for streamID: ", streamID);
       const a = await _authenticateCeramic(this.ceramicPromise);
       console.log("authenticated: ", a);
-      const en = await _readCeramic(a, streamID);
+      const en = await _readCeramic(a[1], streamID as string);
       console.log("read from ceramic: ", en);
       // decode data returned from ceramic
       const deco = await _decodeFromB64(en);

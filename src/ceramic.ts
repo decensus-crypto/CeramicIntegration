@@ -1,14 +1,14 @@
+import ThreeIdResolver from "@ceramicnetwork/3id-did-resolver";
 import type { CeramicApi } from "@ceramicnetwork/common";
 import Ceramic from "@ceramicnetwork/http-client";
 import { Caip10Link } from "@ceramicnetwork/stream-caip10-link";
 import { TileDocument } from "@ceramicnetwork/stream-tile";
+import { ResolverRegistry } from "did-resolver";
 import { DID } from "dids";
-import ThreeIdResolver from "@ceramicnetwork/3id-did-resolver";
 import KeyDidResolver from "key-did-resolver";
 import { createIDX } from "./idx";
-import { getProvider, getAddress } from "./wallet";
-import { ResolverRegistry } from "did-resolver";
-import { decodeb64, encodeb64, blobToBase64 } from "./lit";
+import { decodeb64, encodeb64 } from "./lit";
+import { getAddress, getProvider } from "./wallet";
 
 declare global {
   interface Window {
@@ -141,17 +141,11 @@ export async function _updateCeramic(
  * @returns {Promise<string>} promise with the ceramic streamID's output
  */
 export async function _readCeramic(
-  auth: any[],
-  streamId: String
+  ceramic: CeramicApi,
+  streamId: string
 ): Promise<string> {
-  if (auth) {
-    const ceramic = auth[1];
-    const stream = await ceramic.loadStream(streamId);
-    return stream.content;
-  } else {
-    console.error("Failed to authenticate in ceramic READ");
-    return "error";
-  }
+  const stream = await ceramic.loadStream(streamId);
+  return stream.content;
 }
 
 /**
